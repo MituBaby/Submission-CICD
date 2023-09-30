@@ -1,18 +1,37 @@
 node {
     // Menggunakan Docker Agent
-    docker.image('node:16-buster-slim').withRun("-p 3000:3000") {
+    def customImage = 'node:16-buster-slim'
+    def customArgs = '-p 3000:3000'
+
+    checkout scm
+
+    try {
         // Stage Build
         stage('Build') {
             steps {
-                sh 'npm install'
+                script {
+                    docker.image(customImage).withRun(customArgs) {
+                        sh 'npm install'
+                    }
+                }
             }
         }
 
         // Stage Test
         stage('Test') {
             steps {
-                sh './jenkins/scripts/test.sh'
+                script {
+                    docker.image(customImage).inside(customArgs) {
+                        sh './jenkins/scripts/test.sh'
+                    }
+                }
             }
+        }
+    } finally {
+        // Clean up Docker container (optional)
+        script {
+            docker.image(customImage).stop()
+            docker.image(customImage).remove()
         }
     }
 }
