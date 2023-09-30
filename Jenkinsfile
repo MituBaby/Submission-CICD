@@ -1,20 +1,19 @@
-node {
-    def customImage = 'node:16-buster-slim'
-    def customArgs = '-p 3000:3000'
-
-    // Menggunakan Docker Agent
-    docker.image(customImage).withRun("-p 3000:3000") {
-        // Stage Build
+pipeline {
+    agent {
+        docker {
+            image 'node:16-buster-slim'
+            args '-p 3000:3000'
+        }
+    }
+    stages {
         stage('Build') {
             steps {
                 sh 'npm install'
             }
         }
-
-        // Stage Test
-        stage('Test') {
+        stage('Test') { 
             steps {
-                sh './jenkins/scripts/test.sh'
+                sh './jenkins/scripts/test.sh' 
             }
         }
     }
