@@ -11,7 +11,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          Ini adalah halaman utama dari web React App untuk pengujian Submission CICD <br>By: Hikmalul A'la Syahrizaldy | S-02 Hikmalul</br>
+          Ini adalah halaman utama dari web React App untuk pengujian Submission CICD By: Hikmalul A'la Syahrizaldy | S-02 Hikmalul
         </p>
       </div>
     );
